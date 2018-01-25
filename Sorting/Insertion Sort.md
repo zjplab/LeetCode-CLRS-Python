@@ -3,7 +3,7 @@ CLRS INSERTION SORT
 void insertionsort(int A[], int n)
 {   
     if(n==1) return;
-    int key,j;
+    int key,j,i;
     for(int j=1;j<=n-1;j++)
     {
         key=A[j];
@@ -24,7 +24,7 @@ Nonincreasing order insertion sort
 void insertionsort(int A[], int n)
 {   
     if(n==1) return;
-    int key,j;
+    int key,j,i;
     for(int j=1;j<=n-1;j++)
     {
         key=A[j];
