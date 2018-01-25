@@ -42,41 +42,90 @@ void insertionsort(int A[], int n)
 
 Binary Insertion Sort
 ```
-int binarySearch(int a[], int item, int low, int high)
+int
+BinarySearch (int a[], int low, int high, int key)
 {
-    if (high <= low)
-        return (item > a[low])?  (low + 1): low;
- 
-    int mid = (low + high)/2;
- 
-    if(item == a[mid])
-        return mid+1;
- 
-    if(item > a[mid])
-        return binarySearch(a, item, mid+1, high);
-    return binarySearch(a, item, low, mid-1);
+    int mid;
+
+    if (low == high)
+        return low;
+
+    mid = low + ((high - low) / 2);
+
+    if (key > a[mid])
+        return BinarySearch (a, mid + 1, high, key);
+    else if (key < a[mid])
+        return BinarySearch (a, low, mid, key);
+
+    return mid;
 }
  
-// Function to sort an array a[] of size 'n'
-void insertionSort(int a[], int n)
+void
+BinaryInsertionSort (int a[], int n)
 {
-    int i, loc, j, k, selected;
- 
-    for (i = 1; i < n; ++i)
-    {
-        j = i - 1;
-        selected = a[i];
- 
-        // find location where selected sould be inseretd
-        loc = binarySearch(a, selected, 0, j);
- 
-        // Move all elements after location to create space
-        while (j >= loc)
-        {
-            a[j+1] = a[j];
-            j--;
+    int ins, i, j;
+    int tmp;
+
+    for (i = 1; i < n; i++) {
+        ins = BinarySearch (a, 0, i, a[i]);
+        if (ins < i) {
+            tmp = a[i];
+            for (j = i - 1; j >= ins; j--)
+                a[j + 1] = a[j];
+            a[ins] = tmp;
         }
-        a[j+1] = selected;
+      
+    }
+}
+```
+
+using memmove():
+```
+void
+BinaryInsertionSort (int a[], int n)
+{
+    int ins, i, j;
+    int tmp;
+
+    for (i = 1; i < n; i++) {
+        ins = BinarySearch (a, 0, i, a[i]);
+        if (ins < i) {
+            tmp = a[i];
+            memmove (a + ins + 1, a + ins, sizeof (int) * (i - ins));
+            a[ins] = tmp;
+        }
+    }
+}
+```
+
+Non-recursion:
+```
+void
+BinaryInsertionSort (int a[], int n)
+{
+    register int i, m;
+    int hi, lo, tmp;
+
+    for (i = 1; i < n; i++) {
+        lo = 0, hi = i;
+        m = i / 2;
+
+        do {
+            if (a[i] > a[m]) {
+                lo = m + 1;
+            } else if (a[i] < a[m]) {
+                hi = m;
+            } else
+                break;
+
+            m = lo + ((hi - lo) / 2);
+        } while (lo < hi);
+ 
+        if (m < i) {
+            tmp = a[i];
+            memmove (a + m + 1, a + m, sizeof (int) * (i - m));
+            a[m] = tmp;
+        }
     }
 }
 ```
