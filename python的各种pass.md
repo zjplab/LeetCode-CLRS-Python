@@ -118,6 +118,6 @@ Out[39]: <__main__.ListNode at 0x1044c0e10>
     changeA(a)
 
 
-a 并不会改变，依旧为'abc'
+a 并不会改变，依旧为'abc',这其实是因为string是immutable的
 
  
